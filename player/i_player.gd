@@ -59,7 +59,9 @@ func _physics_process(delta):
 	### ANIMATION ###
 
 	var moving = false
+	# warning-ignore:unused_variable
 	var left = false
+	# warning-ignore:unused_variable
 	var right = false
 	var jumping = false
 	var falling = false

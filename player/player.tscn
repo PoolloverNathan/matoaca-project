@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://player/i_player.gd" type="Script" id=1]
 [ext_resource path="res://player/anims/walk.anim" type="Animation" id=2]
@@ -176,6 +176,9 @@ tracks/4/keys = {
 "values": [ 0.0 ]
 }
 
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "leap"
+
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "still"
 
@@ -183,20 +186,26 @@ animation = "still"
 animation = "walk"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=10]
-advance_condition = "running"
+advance_condition = "moving"
 xfade_time = 0.1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=11]
-advance_condition = "not_running"
+advance_condition = "not_moving"
 xfade_time = 0.1
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+advance_condition = "jumping"
+
 [sub_resource type="AnimationNodeStateMachine" id=12]
+states/leap/node = SubResource( 14 )
+states/leap/position = Vector2( 523.667, 317 )
 states/still/node = SubResource( 8 )
 states/still/position = Vector2( 137.667, 80.875 )
 states/walk/node = SubResource( 9 )
-states/walk/position = Vector2( 377.667, 81.4676 )
-transitions = [ "still", "walk", SubResource( 10 ), "walk", "still", SubResource( 11 ) ]
+states/walk/position = Vector2( 523.667, 80.875 )
+transitions = [ "still", "walk", SubResource( 10 ), "walk", "still", SubResource( 11 ), "walk", "leap", SubResource( 15 ) ]
 start_node = "still"
+graph_offset = Vector2( 0, 111.456 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
@@ -256,6 +265,7 @@ update_scale = false
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
 position = Vector2( -6.55651e-07, 1 )
+rotation = 0.785396
 texture = ExtResource( 6 )
 
 [node name="UpperArm" type="Node2D" parent="Body/BodySprite"]
@@ -274,6 +284,7 @@ update_scale = false
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
 position = Vector2( -3.57628e-07, 1 )
+rotation = -0.785396
 texture = ExtResource( 6 )
 
 [node name="LowerLeg" type="Node2D" parent="Body/BodySprite"]
@@ -311,6 +322,7 @@ update_scale = false
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
 position = Vector2( 7.15256e-07, 1 )
+rotation = 1.0472
 texture = ExtResource( 3 )
 
 [node name="Shadow" type="Sprite" parent="Body"]
@@ -336,13 +348,13 @@ tree_root = SubResource( 12 )
 anim_player = NodePath("..")
 active = true
 parameters/playback = SubResource( 13 )
-parameters/conditions/not_running = false
-parameters/conditions/running = false
+parameters/conditions/jumping = false
+parameters/conditions/moving = false
+parameters/conditions/not_moving = false
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+[node name="visibility" type="VisibilityNotifier2D" parent="."]
 
 [node name="camera" type="Camera2D" parent="."]
-visible = false
 rotating = true
 current = true
 zoom = Vector2( 0.33, 0.33 )
@@ -354,4 +366,4 @@ smoothing_enabled = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
 
-[connection signal="viewport_exited" from="VisibilityNotifier2D" to="." method="_on_exit_screen"]
+[connection signal="viewport_exited" from="visibility" to="." method="_on_exit_screen"]
