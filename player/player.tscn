@@ -196,11 +196,15 @@ states/still/position = Vector2( 137.667, 80.875 )
 states/walk/node = SubResource( 9 )
 states/walk/position = Vector2( 377.667, 81.4676 )
 transitions = [ "still", "walk", SubResource( 10 ), "walk", "still", SubResource( 11 ) ]
+start_node = "still"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
+WALK_SPEED = 150
+JUMP_SPEED = 275
+TIME_FOR_SEVERE_FALL = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -1 )
@@ -222,7 +226,6 @@ update_scale = false
 position = Vector2( 0, -4 )
 
 [node name="HeadSprite" type="Sprite" parent="Body/BodySprite/Head"]
-rotation = -0.523598
 texture = ExtResource( 5 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite/Head/HeadSprite"]
@@ -234,7 +237,6 @@ update_scale = false
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
 position = Vector2( -9.53674e-07, 1 )
-rotation = -0.523598
 texture = ExtResource( 5 )
 
 [node name="LowerArm" type="Node2D" parent="Body/BodySprite"]
@@ -242,7 +244,7 @@ show_behind_parent = true
 position = Vector2( 0, -2 )
 
 [node name="LowerArmSprite" type="Sprite" parent="Body/BodySprite/LowerArm"]
-rotation = 0.785397
+rotation = 0.785396
 texture = ExtResource( 6 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite/LowerArm/LowerArmSprite"]
@@ -254,14 +256,13 @@ update_scale = false
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
 position = Vector2( -6.55651e-07, 1 )
-rotation = 0.785397
 texture = ExtResource( 6 )
 
 [node name="UpperArm" type="Node2D" parent="Body/BodySprite"]
 position = Vector2( 0, -2 )
 
 [node name="UpperArmSprite" type="Sprite" parent="Body/BodySprite/UpperArm"]
-rotation = -0.785397
+rotation = -0.785396
 texture = ExtResource( 6 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite/UpperArm/UpperArmSprite"]
@@ -273,7 +274,6 @@ update_scale = false
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
 position = Vector2( -3.57628e-07, 1 )
-rotation = -0.785397
 texture = ExtResource( 6 )
 
 [node name="LowerLeg" type="Node2D" parent="Body/BodySprite"]
@@ -311,7 +311,6 @@ update_scale = false
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
 position = Vector2( 7.15256e-07, 1 )
-rotation = 1.0472
 texture = ExtResource( 3 )
 
 [node name="Shadow" type="Sprite" parent="Body"]
@@ -326,6 +325,7 @@ update_position = false
 update_scale = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "still"
 anims/RESET = SubResource( 5 )
 anims/leap = SubResource( 6 )
 anims/still = SubResource( 7 )
@@ -334,6 +334,7 @@ anims/walk = ExtResource( 2 )
 [node name="AnimationTree" type="AnimationTree" parent="AnimationPlayer"]
 tree_root = SubResource( 12 )
 anim_player = NodePath("..")
+active = true
 parameters/playback = SubResource( 13 )
 parameters/conditions/not_running = false
 parameters/conditions/running = false

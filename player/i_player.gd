@@ -58,7 +58,7 @@ func _physics_process(delta):
 
 	### ANIMATION ###
 
-	var running = false
+	var moving = false
 	var left = false
 	var right = false
 	var jumping = false
@@ -68,12 +68,12 @@ func _physics_process(delta):
 	if on_floor:
 		if linear_vel.x < -SIDING_CHANGE_SPEED:
 			sprite.scale.x = -1
-			running = true
+			moving = true
 			left = true
 
 		if linear_vel.x > SIDING_CHANGE_SPEED:
 			sprite.scale.x = 1
-			running = true
+			moving = true
 			right = true
 	else:
 		# We want the character to immediately change facing side when the player
@@ -96,3 +96,11 @@ func _physics_process(delta):
 			splat = true
 			fall_splat_time = FALL_SPLAT_TIME
 		fall_time = 0
+	TREE["parameters/conditions/moving"] = moving
+	TREE["parameters/conditions/not_moving"] = not moving
+	TREE["parameters/conditions/jumping"] = jumping
+	TREE["parameters/conditions/not_jumping"] = not jumping
+	TREE["parameters/conditions/falling"] = falling
+	TREE["parameters/conditions/not_falling"] = not falling
+	TREE["parameters/conditions/splat"] = splat
+	TREE["parameters/conditions/not_splat"] = not splat
