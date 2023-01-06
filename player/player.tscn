@@ -1,0 +1,202 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://player/player_movement.gd" type="Script" id=1]
+[ext_resource path="res://player/anims/walk.anim" type="Animation" id=2]
+[ext_resource path="res://player/sprites/leg.png" type="Texture" id=3]
+[ext_resource path="res://player/anims/RESET.tres" type="Animation" id=4]
+[ext_resource path="res://player/sprites/head.png" type="Texture" id=5]
+[ext_resource path="res://player/sprites/arm.png" type="Texture" id=6]
+[ext_resource path="res://player/sprites/body.png" type="Texture" id=7]
+[ext_resource path="res://player/anims/leap.tres" type="Animation" id=8]
+[ext_resource path="res://player/anims/still.tres" type="Animation" id=9]
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 4, 8 )
+
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "RESET"
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "leap"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+advance_condition = "jumping"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+advance_condition = "moving"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+advance_condition = "not_moving"
+
+[sub_resource type="AnimationNodeStateMachine" id=12]
+states/RESET/node = SubResource( 16 )
+states/RESET/position = Vector2( 127, 81.2318 )
+states/leap/node = SubResource( 14 )
+states/leap/position = Vector2( 523.667, 317 )
+states/walk/node = SubResource( 9 )
+states/walk/position = Vector2( 523.667, 80.875 )
+transitions = [ "walk", "leap", SubResource( 15 ), "RESET", "walk", SubResource( 17 ), "walk", "RESET", SubResource( 18 ) ]
+graph_offset = Vector2( 0, 8.16156 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=13]
+
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 1 )
+WALK_SPEED = 150
+JUMP_SPEED = 275
+TIME_FOR_SEVERE_FALL = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -1 )
+z_index = -100
+z_as_relative = false
+shape = SubResource( 4 )
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="BodySprite" type="Sprite" parent="Body"]
+texture = ExtResource( 7 )
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite"]
+remote_path = NodePath("../../Shadow")
+update_position = false
+update_scale = false
+
+[node name="Head" type="Node2D" parent="Body/BodySprite"]
+position = Vector2( 0, -4 )
+
+[node name="HeadSprite" type="Sprite" parent="Body/BodySprite/Head"]
+texture = ExtResource( 5 )
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite/Head/HeadSprite"]
+remote_path = NodePath("../../Shadow")
+update_position = false
+update_scale = false
+
+[node name="Shadow" type="Sprite" parent="Body/BodySprite/Head"]
+modulate = Color( 0, 0, 0, 0.25098 )
+show_behind_parent = true
+position = Vector2( -9.53674e-07, 1 )
+texture = ExtResource( 5 )
+
+[node name="LowerArm" type="Node2D" parent="Body/BodySprite"]
+show_behind_parent = true
+position = Vector2( 0, -2 )
+
+[node name="LowerArmSprite" type="Sprite" parent="Body/BodySprite/LowerArm"]
+rotation = 0.785396
+texture = ExtResource( 6 )
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite/LowerArm/LowerArmSprite"]
+remote_path = NodePath("../../Shadow")
+update_position = false
+update_scale = false
+
+[node name="Shadow" type="Sprite" parent="Body/BodySprite/LowerArm"]
+modulate = Color( 0, 0, 0, 0.25098 )
+show_behind_parent = true
+position = Vector2( -6.55651e-07, 1 )
+rotation = 0.785396
+texture = ExtResource( 6 )
+
+[node name="UpperArm" type="Node2D" parent="Body/BodySprite"]
+position = Vector2( 0, -2 )
+
+[node name="UpperArmSprite" type="Sprite" parent="Body/BodySprite/UpperArm"]
+rotation = -0.785396
+texture = ExtResource( 6 )
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite/UpperArm/UpperArmSprite"]
+remote_path = NodePath("../../Shadow")
+update_position = false
+update_scale = false
+
+[node name="Shadow" type="Sprite" parent="Body/BodySprite/UpperArm"]
+modulate = Color( 0, 0, 0, 0.25098 )
+show_behind_parent = true
+position = Vector2( -3.78117e-07, 1 )
+rotation = -0.785396
+texture = ExtResource( 6 )
+
+[node name="LowerLeg" type="Node2D" parent="Body/BodySprite"]
+show_behind_parent = true
+position = Vector2( 0, 4 )
+
+[node name="LowerLegSprite" type="Sprite" parent="Body/BodySprite/LowerLeg"]
+texture = ExtResource( 3 )
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite/LowerLeg/LowerLegSprite"]
+remote_path = NodePath("../../Shadow")
+update_position = false
+update_scale = false
+
+[node name="Shadow" type="Sprite" parent="Body/BodySprite/LowerLeg"]
+modulate = Color( 0, 0, 0, 0.25098 )
+show_behind_parent = true
+position = Vector2( 0, 1 )
+texture = ExtResource( 3 )
+
+[node name="UpperLeg" type="Node2D" parent="Body/BodySprite"]
+show_behind_parent = true
+position = Vector2( 0, 4 )
+
+[node name="UpperLegSprite" type="Sprite" parent="Body/BodySprite/UpperLeg"]
+rotation = 1.0472
+texture = ExtResource( 3 )
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite/UpperLeg/UpperLegSprite"]
+remote_path = NodePath("../../Shadow")
+update_position = false
+update_scale = false
+
+[node name="Shadow" type="Sprite" parent="Body/BodySprite/UpperLeg"]
+modulate = Color( 0, 0, 0, 0.25098 )
+show_behind_parent = true
+position = Vector2( 7.15256e-07, 1 )
+rotation = 1.0472
+texture = ExtResource( 3 )
+
+[node name="Shadow" type="Sprite" parent="Body"]
+modulate = Color( 0, 0, 0, 0.25098 )
+show_behind_parent = true
+position = Vector2( -7.15256e-07, 1 )
+texture = ExtResource( 7 )
+
+[node name="Head" type="RemoteTransform2D" parent="Body"]
+remote_path = NodePath("../BodySprite/Head")
+update_position = false
+update_scale = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = ExtResource( 4 )
+anims/leap = ExtResource( 8 )
+anims/still = ExtResource( 9 )
+anims/walk = ExtResource( 2 )
+
+[node name="AnimationTree" type="AnimationTree" parent="AnimationPlayer"]
+tree_root = SubResource( 12 )
+anim_player = NodePath("..")
+parameters/playback = SubResource( 13 )
+parameters/conditions/jumping = false
+parameters/conditions/moving = false
+parameters/conditions/not_moving = false
+
+[node name="visibility" type="VisibilityNotifier2D" parent="."]
+
+[node name="camera" type="Camera2D" parent="."]
+rotating = true
+current = true
+zoom = Vector2( 0.33, 0.33 )
+limit_left = 0
+limit_right = 2048
+limit_bottom = 320
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[connection signal="viewport_exited" from="visibility" to="." method="_on_exit_screen"]
