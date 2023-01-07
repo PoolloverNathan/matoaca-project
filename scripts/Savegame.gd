@@ -1,6 +1,7 @@
 class_name Savegame extends Node
 
-export var spawnAt = Vector2(112, -360)
-export var stage = 1
+export var spawn_at = Vector2(112, -360)
+export var current_stage = 1
 ## Unobtainable gem in stage 1, surrounded by lasers.
-export var gem_green_l1 = false
+export var stage_1_green = false
+export var stage_1_no_lasers = false

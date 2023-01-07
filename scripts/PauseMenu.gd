@@ -3,6 +3,7 @@ extends Control
 func pause():
 	get_tree().paused = true
 	show()
+	print("--- OPENING PAUSE MENU ---")
 	$AnimationPlayer.play("open")
 	BlackFade._wait()
 
@@ -19,6 +20,7 @@ func _process(_delta):
 		pauseLastFrame = false
 
 func resume():
+	print("--- CLOSING PAUSE MENU ---")
 	$AnimationPlayer.play_backwards("open")
 	BlackFade._wait()
 	hide()
@@ -34,6 +36,8 @@ func exit_level():
 	if PlayerService.canPopScene():
 		PlayerService.popScene()
 		resume()
+	else:
+		get_tree().quit() # unreachable
 
 func quit():
 	BlackFade.fadeout()

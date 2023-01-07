@@ -14,7 +14,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/gem.gd"
 }, {
-"base": "KinematicBody2D",
+"base": "Reference",
 "class": "Player",
 "language": "GDScript",
 "path": "res://player/player_movement.gd"

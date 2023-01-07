@@ -2,8 +2,9 @@ extends Node
 signal save_loaded(savegame, new)
 var _savegame: Savegame = null
 export var saveFile = "user://save.tscn"
-const green = ["gem_green_l1"]
+const green = ["s1_green"]
 const orange = []
+export var worthSaving = false
 
 func getOrangeGemCount():
 	var total = 0
@@ -22,17 +23,19 @@ func getGreenGemCount():
 			has += 1
 	return [has, total]
 
-func _ready():
-	loadSave()
+# func _ready():
+# 	loadSave()
 
 func getSave():
 	return _savegame
 func resetSave():
 	_savegame = Savegame.new()
-func save():
-	var pscn := PackedScene.new()
-	pscn.pack(_savegame)
-	ResourceSaver.save("user://save.tscn", pscn)
+func save(force = false):
+	if worthSaving or force:
+		var pscn := PackedScene.new()
+		pscn.pack(_savegame)
+		ResourceSaver.save("user://save.tscn", pscn)
+		worthSaving = false
 func loadSave():
 	if ResourceLoader.exists("user://save.tscn"):
 		_savegame = load("user://save.tscn").instance()

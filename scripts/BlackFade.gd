@@ -27,6 +27,7 @@ func fadeout(wait = true):
 func _wait():
 	var timer := Timer.new()
 	timer.wait_time = 1
+	add_child(timer)
 	timer.start()
 	yield(timer, "timeout")
 	timer.queue_free()

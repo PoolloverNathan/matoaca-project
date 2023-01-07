@@ -12,11 +12,15 @@ export var SIDING_CHANGE_SPEED = 10
 export var TIME_FOR_SEVERE_FALL = 1
 export var TIME_FOR_FATAL_FALL = 5
 export var FALL_SPLAT_TIME = 1
+export var DOUBLE_JUMP_THRESHOLD = 0.5
+export var COYOTE_THRESHOLD = 0.25
 onready var TREE: AnimationTree = $AnimationPlayer/AnimationTree
 
 var linear_vel = Vector2()
 var fall_time = 0
 var fall_splat_time = 0
+var can_double_jump = true
+var coyote = 0
 
 var anim = ""
 
@@ -30,11 +34,7 @@ func _physics_process(delta):
 	if transform.origin.y > 480:
 		emit_signal("reload")
 		return
-	print("delta " + str(delta) + " vel " + str(linear_vel) + " fall " + str(fall_time) + " splat " + str(fall_splat_time))
-	if fall_splat_time > 0:
-		linear_vel = Vector2(0, 0)
-		fall_splat_time -= delta
-		return
+	# print("delta " + str(delta) + " vel " + str(linear_vel) + " fall " + str(fall_time) + " splat " + str(fall_splat_time))
 	### MOVEMENT ###
 
 	# Apply gravity
@@ -43,6 +43,15 @@ func _physics_process(delta):
 	linear_vel = move_and_slide(linear_vel, FLOOR_NORMAL, SLOPE_SLIDE_STOP)
 	# Detect if we are on floor - only works if called *after* move_and_slide
 	var on_floor = is_on_floor()
+	if on_floor:
+		coyote = 0
+	else:
+		coyote += delta
+		if coyote < COYOTE_THRESHOLD:
+			on_floor = true
+	if fall_splat_time > 0:
+		fall_splat_time -= delta
+		return
 
 	### CONTROL ###
 
@@ -57,9 +66,13 @@ func _physics_process(delta):
 	linear_vel.x = lerp(linear_vel.x, target_speed, 0.1)
 
 	# Jumping
-	if on_floor and Input.is_action_just_pressed("jump"):
+	if (on_floor or (can_double_jump and not $FloorCast.is_colliding())) and Input.is_action_just_pressed("jump"):
 		linear_vel.y = -JUMP_SPEED
+		if not on_floor:
+			can_double_jump = false
 		# ($SoundJump as AudioStreamPlayer2D).play()
+	if on_floor:
+		can_double_jump = true
 
 	### ANIMATION ###
 
@@ -111,3 +124,8 @@ func _physics_process(delta):
 	# TREE["parameters/conditions/not_falling"] = not falling
 	# TREE["parameters/conditions/splat"] = splat
 	# TREE["parameters/conditions/not_splat"] = not splat
+
+
+func _on_Area2D_body_entered(body):
+	if body.is_in_group("fatal_to_touch"):
+		emit_signal("reload")

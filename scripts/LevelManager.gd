@@ -6,5 +6,6 @@ func reload():
 	get_tree().reload_current_scene()
 	BlackFade.fadein()
 func _ready():
+	PlayerService.loadSave()
 	$Player.connect("reload", self, "reload")
-	$Player.transform.origin = PlayerService.getSave().spawnAt
+	$Player.global_position = PlayerService.getSave().spawn_at
