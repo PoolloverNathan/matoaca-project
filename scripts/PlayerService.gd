@@ -1,6 +1,7 @@
 extends Node
-var _savegame := Savegame.new()
-export var savePrefix := "save_"
+signal save_loaded(savegame, new)
+var _savegame: Savegame = null
+export var saveFile = "user://save.tscn"
 const green = ["gem_green_l1"]
 const orange = []
 
@@ -22,19 +23,23 @@ func getGreenGemCount():
 	return [has, total]
 
 func _ready():
-	loadSave("save")
+	loadSave()
 
 func getSave():
 	return _savegame
 func resetSave():
 	_savegame = Savegame.new()
-func save(name: String):
+func save():
 	var pscn := PackedScene.new()
 	pscn.pack(_savegame)
-	ResourceSaver.save("user://" + savePrefix + name + ".tscn", pscn)
-func loadSave(name: String):
-	if ResourceLoader.exists("user://" + savePrefix + name + ".tscn"):
-		_savegame = load("user://" + savePrefix + name + ".tscn").get_instance()
+	ResourceSaver.save("user://save.tscn", pscn)
+func loadSave():
+	if ResourceLoader.exists("user://save.tscn"):
+		_savegame = load("user://save.tscn").instance()
+		emit_signal("save_loaded", _savegame, false)
+	else:
+		_savegame = Savegame.new()
+		emit_signal("save_loaded", _savegame, true)
 
 class SceneEntry:
 	var scene: PackedScene
@@ -43,9 +48,17 @@ class SceneEntry:
 		scene = _scene
 		user_can_pop = _user_can_pop
 onready var scenes: Array = [SceneEntry.new(preload("res://levels/level1.tscn"), false)]
-func pushScene(scene: PackedScene, user_can_pop = false):
+func pushScene(scene: PackedScene, user_can_pop = false, transition = true):
 	scenes.push_back(SceneEntry.new(scene, user_can_pop))
+	if transition: BlackFade.fadeout()
 	get_tree().change_scene_to(scene)
-func popScene():
+	if transition: BlackFade.fadein()
+func popScene(transition = true):
 	scenes.pop_back()
+	if transition: BlackFade.fadeout()
 	get_tree().change_scene_to(scenes.back().scene)
+	if transition: BlackFade.fadein()
+func canPopScene():
+	return scenes.back().user_can_pop
+func difficultyString():
+	return "Standard"

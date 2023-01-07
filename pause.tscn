@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scripts/Summary.gd" type="Script" id=1]
 [ext_resource path="res://scripts/PauseMenu.gd" type="Script" id=2]
+[ext_resource path="res://QuitButton.gd" type="Script" id=3]
+[ext_resource path="res://ExitLevelButton.gd" type="Script" id=4]
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -150,6 +152,8 @@ size = 24
 font_data = SubResource( 1 )
 
 [node name="PauseMenu" type="Control"]
+pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
@@ -169,15 +173,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -107.0
-margin_top = -42.0
-margin_right = 107.0
-margin_bottom = 142.0
+margin_left = 405.0
+margin_top = 258.0
+margin_right = 619.0
+margin_bottom = 454.0
 custom_styles/panel = SubResource( 6 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 margin_right = 214.0
-margin_bottom = 184.0
+margin_bottom = 196.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_vertical = 5
 
@@ -220,12 +224,21 @@ margin_right = 214.0
 margin_bottom = 144.0
 text = "Saves"
 
-[node name="QuitButton" type="ToolButton" parent="Panel/VBoxContainer"]
+[node name="ExitLevelButton" type="ToolButton" parent="Panel/VBoxContainer"]
 modulate = Color( 1, 0, 0, 1 )
 margin_top = 148.0
 margin_right = 214.0
 margin_bottom = 170.0
+text = "Exit Level"
+script = ExtResource( 4 )
+
+[node name="QuitButton" type="ToolButton" parent="Panel/VBoxContainer"]
+modulate = Color( 1, 0, 0, 1 )
+margin_top = 174.0
+margin_right = 214.0
+margin_bottom = 196.0
 text = "Quit"
+script = ExtResource( 3 )
 
 [node name="Control" type="Control" parent="Panel/VBoxContainer/QuitButton"]
 anchor_left = 0.5
@@ -243,10 +256,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -135.0
-margin_top = 167.0
-margin_right = 135.0
-margin_bottom = 249.0
+margin_left = 377.0
+margin_top = 467.0
+margin_right = 647.0
+margin_bottom = 549.0
 grow_vertical = 0
 text = "{{Difficulty}}, {{perc}}%. Last save {{time}}.
 {{G}}/{{GMAX}} green gems collected.

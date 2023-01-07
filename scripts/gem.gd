@@ -9,15 +9,16 @@ enum TYPE {
 	SAVE_POINT,
 	## A red gem that starts a secret level. It can be exited through the pause menu.
 	SUBLEVEL,
-	## A green gem that will be saved in the savegame.
+	## A green gem that will be saved in the save file.
 	COLLECTIBLE,
 	BROWN,
 	BLACK,
 	TAN,
-	## An orange gem whose collection ends the current secret level. Its collection will also be saved in the savegame. 
+	## An orange gem whose collection ends the current secret level. Its collection will also be saved in the save file. 
 	ORANGE,
+	## A pink gem that starts a secret level. It cannot be exited through the pause menu.
 	PINK,
-	## A purple gem that removes a layer. This will be tracked in the savegame, and the layer will be removed on load.
+	## A purple gem that removes a layer. This will be tracked in the save file, and the layer will be removed on load.
 	## target = the node to remove.
 	PURPLE,
 }
@@ -43,9 +44,10 @@ var COLORMAP = {
 }
 
 export(TYPE) var type
-## The name of the gem. Only works with gems that have an effect involving the save file.
-export(String) var gem_name
+## The name of the gem, used for tracking the gem's collection status.
 export(NodePath) var target = null
+## The stage number of the gem, if it is a save point.
+export var stageNumber = 0
 onready var target_node = get_node(target) if target else null
 export(PackedScene) var level
 
@@ -54,21 +56,46 @@ func _ready():
 		return
 	PlayerService.connect("save_loaded", self, "_save_loaded")
 func _save_loaded(save):
-	if save.get("gem_" + name):
+	if save.get(name):
 		hit()
 
 func get_color():
 	return COLORMAP[type]
 
 func hit():
-	if Engine.editor_hint:
-		return
+	# if Engine.editor_hint:
+	# 	return
 	$Gem.mode = RigidBody2D.MODE_RIGID
 	$Gem.apply_impulse(Vector2(0, 1), Vector2(5, -5))
+	sideEffect(false)
+func sideEffect(fromSave):
+	var save = PlayerService.getSave()
+	# if Engine.editor_hint:
+	# 	return
 	match type:
 		TYPE.PURPLE:
 			if target_node:
 				target_node.queue_free()
 				target = ""
 		TYPE.SUBLEVEL:
-			Player
+			if not fromSave:
+				PlayerService.pushScene(level, true)
+		TYPE.PINK:
+			if not fromSave:
+				PlayerService.pushScene(level, false)
+		TYPE.COLLECTIBLE, TYPE.ORANGE:
+			if not fromSave: # don't waste time setting it
+				save[name] = true
+				PlayerService.save()
+		TYPE.ORANGE:
+			PlayerService.popScene()
+		TYPE.SAVE_POINT:
+			if not fromSave:
+				if save.stage < stageNumber:
+					save.stage = stageNumber
+				PlayerService.save()
+
+
+func _on_Dislodge_body_entered(body):
+	if body is Player:
+		hit()

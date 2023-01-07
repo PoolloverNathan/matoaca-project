@@ -106,8 +106,8 @@ func _physics_process(delta):
 	TREE["parameters/conditions/moving"] = moving
 	TREE["parameters/conditions/not_moving"] = not moving
 	TREE["parameters/conditions/jumping"] = jumping
-	TREE["parameters/conditions/not_jumping"] = not jumping
-	TREE["parameters/conditions/falling"] = falling
-	TREE["parameters/conditions/not_falling"] = not falling
-	TREE["parameters/conditions/splat"] = splat
-	TREE["parameters/conditions/not_splat"] = not splat
+	# TREE["parameters/conditions/not_jumping"] = not jumping
+	# TREE["parameters/conditions/falling"] = falling
+	# TREE["parameters/conditions/not_falling"] = not falling
+	# TREE["parameters/conditions/splat"] = splat
+	# TREE["parameters/conditions/not_splat"] = not splat

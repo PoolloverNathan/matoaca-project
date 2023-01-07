@@ -9,10 +9,6 @@ extents = Vector2( 5, 7.5 )
 
 [node name="gem" type="Node2D"]
 script = ExtResource( 3 )
-type = 0
-gem_name = ""
-target = null
-level = null
 
 [node name="Stand" type="StaticBody2D" parent="."]
 
@@ -50,3 +46,5 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dislodge"]
 position = Vector2( 0, -2.5 )
 shape = SubResource( 1 )
+
+[connection signal="body_entered" from="Dislodge" to="." method="_on_Dislodge_body_entered"]

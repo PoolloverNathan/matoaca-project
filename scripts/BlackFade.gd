@@ -29,3 +29,4 @@ func _wait():
 	timer.wait_time = 1
 	timer.start()
 	yield(timer, "timeout")
+	timer.queue_free()
