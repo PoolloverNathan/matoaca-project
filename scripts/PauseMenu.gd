@@ -2,7 +2,7 @@ extends Control
 
 func pause():
 	get_tree().paused = true
-	show()
+	# show()
 	print("--- OPENING PAUSE MENU ---")
 	$AnimationPlayer.play("open")
 	BlackFade._wait()
@@ -12,7 +12,7 @@ func _process(_delta):
 	if Input.get_action_strength("pause"):
 		if not pauseLastFrame:
 			pauseLastFrame = true
-			if visible:
+			if get_tree().paused:
 				resume()
 			else:
 				pause()
@@ -23,7 +23,7 @@ func resume():
 	print("--- CLOSING PAUSE MENU ---")
 	$AnimationPlayer.play_backwards("open")
 	BlackFade._wait()
-	hide()
+	# hide()
 	get_tree().paused = false
 
 func options(): pass
