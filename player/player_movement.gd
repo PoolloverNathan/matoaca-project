@@ -1,6 +1,6 @@
 class_name Player extends KinematicBody2D
-signal win()
-signal get_collectable(color)
+# signal win()
+# signal get_collectable(color)
 signal reload()
 
 export var GRAVITY_VEC = Vector2(0, 900)

@@ -46,25 +46,31 @@ onready var target_node: Node2D = get_node(target) if target else null
 export(NodePath) var spawn_at = null
 onready var spawn_at_pos: Vector2 = get_node(spawn_at).global_position if spawn_at else Vector2(0, 0)
 export(PackedScene) var level
+export(float) var launch_force = 30.0
+
+func _get_configuration_warning():
+	if launch_force < 0: return "launch_force must be >= 0"
+	return ""
 
 func _ready():
 	if Engine.editor_hint:
 		return
 	PlayerService.connect("save_loaded", self, "_save_loaded")
-func _save_loaded(save):
-	if save.get(name):
+func _save_loaded(save, new):
+	if not new and save.get(name):
 		sideEffect(true)
 		$Gem.queue_free()
+		$Dislodge.queue_free()
 # func _save_loaded(save):
 
 func get_color():
 	return COLORMAP[type]
 
-func hit():
+func hit(direction: int):
 	# if Engine.editor_hint:
 	# 	return
 	$Gem.mode = RigidBody2D.MODE_RIGID
-	$Gem.apply_impulse(Vector2(0, 1), Vector2(30, -30))
+	$Gem.apply_impulse(Vector2(0, 1), Vector2(launch_force, launch_force * direction))
 	sideEffect(false)
 func sideEffect(fromSave):
 	var save = PlayerService.getSave()
@@ -104,5 +110,5 @@ func sideEffect(fromSave):
 
 func _on_Dislodge_body_entered(body):
 	if body is Player:
-		call_deferred("hit")
+		call_deferred("hit", int(body.global_position.x > global_position.x) *2-1)
 		$Dislodge.monitoring = false

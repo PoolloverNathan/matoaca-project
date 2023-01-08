@@ -2,7 +2,7 @@ extends Label
 var template = text
 onready var _file: File = File.new()
 
-func _process(delta):
+func _process(_delta):
 	var green = PlayerService.getGreenGemCount()
 	var orange = PlayerService.getOrangeGemCount()
 	var mtime = timeify(_file.get_modified_time("user://save.tscn") if _file.file_exists("user://save.tscn") else 0)
