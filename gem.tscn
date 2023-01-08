@@ -47,4 +47,7 @@ monitorable = false
 position = Vector2( 0, -2.5 )
 shape = SubResource( 1 )
 
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+position = Vector2( 0, -1 )
+
 [connection signal="body_entered" from="Dislodge" to="." method="_on_Dislodge_body_entered"]
