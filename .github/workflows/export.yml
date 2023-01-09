@@ -33,7 +33,7 @@ jobs:
         run: |
           mkdir -v -p build/${{ matrix.platform }}
           cd $PROJECT_PATH
-          godot -v --export "Windows Desktop" ../build/${{ matrix.platform }}/${{ matrix.export }}
+          godot -v --export ${{ matrix.platform }} ../build/${{ matrix.platform }}/${{ matrix.export }}
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
