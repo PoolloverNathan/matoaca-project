@@ -3,7 +3,6 @@ on: push
 
 env:
   GODOT_VERSION: 3.3.4
-  PROJECT_PATH: ''
 
 jobs:
   export:
@@ -11,6 +10,7 @@ jobs:
     container:
       image: barichello/godot-ci:3.3.4
     strategy:
+      fail-fast: false
       matrix:
         platform: [windows, mac, linux, web]
         include:
@@ -27,13 +27,12 @@ jobs:
           lfs: true
       - name: Setup
         run: |
-          mkdir -v -p ~/.local/share/godot/templates
+          mkdir -vp ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Build
         run: |
-          mkdir -v -p build/${{ matrix.platform }}
-          cd $PROJECT_PATH
-          godot -v --export ${{ matrix.platform }} ../build/${{ matrix.platform }}/${{ matrix.export }}
+          mkdir -vp build/${{ matrix.platform }}
+          godot -v --export ${{ matrix.platform }} build/${{ matrix.platform }}/${{ matrix.export }}
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
