@@ -1,6 +1,9 @@
 name: "godot-ci export"
 on: [push, pull_request]
-
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 env:
   GODOT_VERSION: 3.3.4
 
