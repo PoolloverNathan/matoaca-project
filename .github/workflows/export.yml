@@ -3,12 +3,10 @@ on: push
 
 env:
   GODOT_VERSION: 3.3.4
-  EXPORT_NAME: robot-gem3
   PROJECT_PATH: ''
 
 jobs:
   export:
-    name: Windows Export
     runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:3.3.4
@@ -31,7 +29,7 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
-      - name: Windows Build
+      - name: Build
         run: |
           mkdir -v -p build/${{ matrix.platform }}
           cd $PROJECT_PATH
