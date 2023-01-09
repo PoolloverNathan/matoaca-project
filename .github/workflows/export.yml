@@ -1,5 +1,5 @@
 name: "godot-ci export"
-on: push
+on: [push, pull_request]
 
 env:
   GODOT_VERSION: 3.3.4
@@ -38,3 +38,9 @@ jobs:
         with:
           name: ${{ matrix.platform }}
           path: build/${{ matrix.platform }}
+      - name: Deploy to Github Pages
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: actions/deploy-pages@v1.2.3
+        with:
+          artifact_name: web
+        
