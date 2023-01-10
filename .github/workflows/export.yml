@@ -47,7 +47,7 @@ jobs:
             export: index.html
         exclude:
           - platform: mac
-    name: Export ${{ matrix.platform }}${{ matrix.type }}
+    name: Export for ${{ matrix.platform }}${{ matrix.type }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
