@@ -10,14 +10,20 @@ env:
 jobs:
   source:
     runs-on: ubuntu-latest
+    name: Upload source
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           lfs: true
+      - name: Upload source
+        uses: actions/upload-artifact@v1
+        with:
+          name: source
+          path: .
       - name: Create zip
         run: zip source.zip $(ls -A)
-      - name: Upload Artifact
+      - name: Upload zip
         uses: actions/upload-artifact@v1
         with:
           name: source-zipped
@@ -41,6 +47,7 @@ jobs:
             export: index.html
         exclude:
           - platform: mac
+    name: Export ${{ matrix.platform }}${{ matrix.type }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -77,7 +84,7 @@ jobs:
         with:
           lfs: true
       - run: mkdir _site
-      - run: mkdir _site/{download,play}
+      - run: mkdir _site/{download,play,$}
       - name: Download for playing
         uses: actions/download-artifact@v1
         with:
@@ -98,11 +105,16 @@ jobs:
         with:
           name: web-zipped
           path: _site/download/web.zip
-      - name: Download source?
+      - name: Download source zip
         uses: actions/download-artifact@v1
         with:
           name: source-zipped
           path: _site/download/source.zip
+      - name: Download source directly
+        uses: actions/download-artifact@v1
+        with:
+          name: source
+          path: _site/$
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v1.0.7
         with:
