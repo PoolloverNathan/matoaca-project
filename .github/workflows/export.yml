@@ -23,7 +23,7 @@ jobs:
           - platform: linux
             export: robot-gem
           - platform: web
-            export: robot-gem.html
+            export: index.html
         exclude:
           - platform: mac
     steps:
@@ -87,6 +87,7 @@ jobs:
           path: _site
   ghp-deploy:
     runs-on: ubuntu-latest
+    needs: ghp-upload
     steps:
       - name: Deploy to Github Pages
         uses: actions/deploy-pages@v1.2.3
