@@ -39,10 +39,13 @@ var COLORMAP = {
 
 export(TYPE) var type
 ## The name of the gem, used for tracking the gem's collection status.
-export(NodePath) var target = null
+export(NodePath) var disable_layer = null
+export(NodePath) var enable_layer = null
 ## The stage number of the gem, if it is a save point.
 export var stageNumber = 0
-onready var target_node: Node2D = get_node(target) if target else null
+onready var disable_node: Node2D = get_node(disable_layer) if disable_layer else null
+onready var enable_node: Node2D = get_node(enable_layer) if enable_layer else null
+onready var enable_node_parent = enable_node.get_parent() if enable_node else null
 export(NodePath) var spawn_at = null
 onready var spawn_at_pos: Vector2 = get_node(spawn_at).global_position if spawn_at else Vector2(0, 0)
 export(PackedScene) var level
@@ -56,6 +59,8 @@ func _ready():
 	if Engine.editor_hint:
 		return
 	PlayerService.connect("save_loaded", self, "_save_loaded")
+	if enable_node_parent:
+		enable_node_parent.remove_child(enable_node)
 func _save_loaded(save, new):
 	if not new and save.get(name):
 		sideEffect(true)
@@ -77,10 +82,14 @@ func sideEffect(fromSave):
 	# if Engine.editor_hint:
 	# 	return
 	match type:
-		TYPE.PURPLE:
-			if target_node:
-				target_node.queue_free()
-				target_node = null
+		TYPE.DECORATIVE, TYPE.PURPLE:
+			if disable_node:
+				disable_node.queue_free()
+				disable_node = null
+			if enable_node:
+				enable_node_parent.add_child(enable_node)
+				enable_node_parent = null
+				enable_node = null
 			continue
 		TYPE.SUBLEVEL:
 			if not fromSave:
@@ -90,7 +99,7 @@ func sideEffect(fromSave):
 			if not fromSave:
 				PlayerService.pushScene(level, false)
 			continue
-		TYPE.COLLECTIBLE, TYPE.ORANGE, TYPE.PURPLE:
+		TYPE.COLLECTIBLE, TYPE.ORANGE, TYPE.DECORATIVE, TYPE.PURPLE:
 			if not fromSave: # don't waste time setting it
 				save[name] = true
 				PlayerService.worthSaving = true

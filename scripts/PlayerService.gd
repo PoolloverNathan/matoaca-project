@@ -70,7 +70,7 @@ class SceneEntry:
 	func _init(_scene: PackedScene, _user_can_pop):
 		scene = _scene
 		user_can_pop = _user_can_pop
-onready var scenes: Array = [SceneEntry.new(preload("res://levels/level1.tscn"), false)]
+onready var scenes: Array = []
 func pushScene(scene: PackedScene, user_can_pop = false, transition = true):
 	scenes.push_back(SceneEntry.new(scene, user_can_pop))
 	if transition: BlackFade.fadeout()
@@ -82,7 +82,10 @@ func popScene(transition = true):
 	get_tree().change_scene_to(scenes.back().scene)
 	if transition: BlackFade.fadein()
 func canPopScene():
-	return scenes.back().user_can_pop
+	if scenes.empty():
+		return false
+	else:
+		return scenes.back().user_can_pop
 func difficultyString():
 	return "Standard"
 func savePrefs():

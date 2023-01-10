@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="Gradient" id=1]
+interpolation_mode = 2
+colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+width = 320
+
+[sub_resource type="NoiseTexture" id=3]
+width = 320
+height = 1
+
+[node name="OutOfBounds" type="Node2D"]
+z_index = 100
+
+[node name="BottomGradient" type="Sprite" parent="."]
+rotation = -1.5708
+scale = Vector2( 1, 2048 )
+texture = SubResource( 2 )
+centered = false
+
+[node name="FillBottom" type="Sprite" parent="."]
+position = Vector2( 0, 320 )
+rotation = -1.5708
+scale = Vector2( 1, 2048 )
+texture = SubResource( 3 )
+centered = false
