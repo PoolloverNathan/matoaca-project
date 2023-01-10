@@ -37,6 +37,8 @@ var move_down_event
 
 func getSave():
 	return _savegame
+func getPrefs():
+	return _prefs
 func resetSave():
 	_savegame = Savegame.new()
 func save(force = false):
@@ -92,10 +94,12 @@ func savePrefs():
 	var pscn := PackedScene.new()
 	pscn.pack(_prefs)
 	ResourceSaver.save(prefsFile, pscn)
-func _init():
+func loadPrefs():
 	if ResourceLoader.exists(prefsFile):
 		_prefs = load(prefsFile).instance()
 	else:
 		savePrefs()
 	for key in inputNames:
 		load_bound_key(key, _prefs.get(key))
+func _init():
+	loadPrefs()
