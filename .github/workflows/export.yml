@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         platform: [ windows, mac, linux, web ]
-        type: [ export, export-debug ]
+        type: [ "", -debug ]
         include:
           - platform: windows
             export: robot-gem.exe
@@ -38,14 +38,14 @@ jobs:
       - name: Build
         run: |
           mkdir -vp build/${{ matrix.platform }}
-          godot -v --${{ matrix.type }} ${{ matrix.platform }} build/${{ matrix.platform }}/${{ matrix.export }}
+          godot -v --export${{ matrix.type }} ${{ matrix.platform }} build/${{ matrix.platform }}/${{ matrix.export }}
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.platform }}
+          name: ${{ matrix.platform }}${{ matrix.type }}
           path: build/${{ matrix.platform }}
       - name: Create zip
-        run: zip ${{ matrix.platform }}.zip build/${{ matrix.platform}}/*
+        run: zip ${{ matrix.platform }}${{ matrix.type }}.zip build/${{ matrix.platform}}/*
       - name: Upload Zipped Artifact
         uses: actions/upload-artifact@v1
         with:
