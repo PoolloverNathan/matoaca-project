@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:3.5.1
+    if: matrix.platform != 'mac'
     strategy:
       fail-fast: false
       matrix:
