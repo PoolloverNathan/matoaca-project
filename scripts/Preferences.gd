@@ -1,7 +1,7 @@
 class_name Preferences extends Node
 
-export var move_left := KEY_LEFT
-export var move_right := KEY_RIGHT
-export var move_up := KEY_UP
-export var move_down := KEY_DOWN
-export var jump := KEY_Z
+export var move_left := KEY_4
+export var move_right := KEY_1
+export var move_up := KEY_3
+export var move_down := KEY_7
+export var jump := KEY_5
