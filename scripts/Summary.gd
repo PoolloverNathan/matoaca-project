@@ -1,6 +1,7 @@
 extends Label
 var template = text
 onready var _file: File = File.new()
+onready var _Time: Time = Time.new()
 
 func _process(_delta):
 	var green = PlayerService.getGreenGemCount()
@@ -19,5 +20,5 @@ func timeify(unix):
 		# print("Timeify error: " + unix)
 		return "<ERROR: " + unix + ">"
 	if unix == 0: return "never"
-	var time = Time.get_date_dict_from_unix_time(unix)
+	var time = _Time.get_date_dict_from_unix_time(unix)
 	return ", ".join(time.keys())
