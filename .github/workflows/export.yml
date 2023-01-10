@@ -49,8 +49,8 @@ jobs:
       - name: Upload Zipped Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.platform }}-zipped
-          path: ${{ matrix.platform }}.zip
+          name: ${{ matrix.platform }}${{ matrix.type }}-zipped
+          path: ${{ matrix.platform }}${{ matrix.type }}.zip
   ghp-upload:
     runs-on: ubuntu-latest
     needs:
