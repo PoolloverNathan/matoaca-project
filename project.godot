@@ -38,7 +38,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="that thing with the robot and gems"
+config/name="Matoaca Project - Nathan"
 run/main_scene="res://start.tscn"
 boot_splash/show_image=false
 boot_splash/fullsize=false
