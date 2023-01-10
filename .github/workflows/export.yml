@@ -84,7 +84,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: true
-      - run: mkdir _site
       - run: mkdir _site/{download,play,$}
       - name: Download for playing
         uses: actions/download-artifact@v1
@@ -95,22 +94,22 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: windows-zipped
-          path: _site/download/windows.zip
+          path: _site/download
       - name: Download linux for downloading
         uses: actions/download-artifact@v1
         with:
           name: linux-zipped
-          path: _site/download/linux.zip
+          path: _site/download
       - name: Download web for hosting
         uses: actions/download-artifact@v1
         with:
           name: web-zipped
-          path: _site/download/web.zip
+          path: _site/download
       - name: Download source zip
         uses: actions/download-artifact@v1
         with:
           name: source-zipped
-          path: _site/download/source.zip
+          path: _site/download
       - name: Download source directly
         uses: actions/download-artifact@v1
         with:
