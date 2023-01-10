@@ -5,13 +5,13 @@ permissions:
   pages: write
   id-token: write
 env:
-  GODOT_VERSION: 3.3.4
+  GODOT_VERSION: 3.5.1
 
 jobs:
   export:
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:3.3.4
+      image: barichello/godot-ci:3.5.1
     strategy:
       fail-fast: false
       matrix:
