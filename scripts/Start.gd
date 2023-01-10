@@ -14,3 +14,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+
+func _on_EditKeybinds_pressed():
+	var _error = get_tree().change_scene_to(load("res://preferences.tscn"))

@@ -27,7 +27,7 @@ mouse_filter = 1
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 657.0
-margin_bottom = 221.0
+margin_bottom = 254.0
 
 [node name="Files" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 margin_right = 650.0
@@ -52,6 +52,21 @@ margin_right = 650.0
 margin_bottom = 214.0
 filenum = 3
 
-[node name="Button" type="Button" parent="."]
-margin_right = 12.0
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+margin_top = 218.0
+margin_right = 650.0
+margin_bottom = 222.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_top = 226.0
+margin_right = 650.0
+margin_bottom = 247.0
+alignment = 1
+
+[node name="EditKeybinds" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 282.0
+margin_right = 368.0
 margin_bottom = 21.0
+text = "Edit Keybinds"
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/EditKeybinds" to="." method="_on_EditKeybinds_pressed"]
