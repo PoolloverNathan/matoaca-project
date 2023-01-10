@@ -1,0 +1,54 @@
+name: "godot-ci export"
+on: [push, pull_request]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+env:
+  GODOT_VERSION: 3.3.4
+
+jobs:
+  export:
+    runs-on: ubuntu-20.04
+    container:
+      image: barichello/godot-ci:3.3.4
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [windows, mac, linux, web]
+        include:
+          - platform: windows
+            export: robot-gem.exe
+          - platform: linux
+            export: robot-gem
+          - platform: web
+            export: robot-gem.html
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+      - name: Setup
+        run: |
+          mkdir -vp ~/.local/share/godot/templates
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+      - name: Build
+        run: |
+          mkdir -vp build/${{ matrix.platform }}
+          godot -v --export ${{ matrix.platform }} build/${{ matrix.platform }}/${{ matrix.export }}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ matrix.platform }}
+          path: build/${{ matrix.platform }}
+      - name: Upload GitHub Pages artifact (web-only)
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v1.0.7
+        with:
+          path: build/web
+      - name: Deploy to Github Pages (web-only)
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: actions/deploy-pages@v1.2.3
+        with:
+          path: build/web
+        
