@@ -1,7 +1,7 @@
 extends Label
 var template = text
 onready var _file: File = File.new()
-onready var _Time: Time = Time.new()
+onready var _Time = Time.new()
 
 func _process(_delta):
 	var green = PlayerService.getGreenGemCount()
