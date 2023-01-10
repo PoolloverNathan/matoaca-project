@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:3.5.1
-    if: matrix.platform != 'mac'
     strategy:
       fail-fast: false
       matrix:
@@ -24,6 +23,8 @@ jobs:
             export: robot-gem
           - platform: web
             export: robot-gem.html
+        exclude:
+          - platform: mac
     steps:
       - name: Checkout
         uses: actions/checkout@v2
