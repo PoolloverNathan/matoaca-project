@@ -42,12 +42,12 @@ jobs:
           name: ${{ matrix.platform }}
           path: build/${{ matrix.platform }}
       - name: Upload GitHub Pages artifact (web-only)
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push' && matrix.platform == 'web'
         uses: actions/upload-pages-artifact@v1.0.7
         with:
           path: build/web
       - name: Deploy to Github Pages (web-only)
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push' && matrix.platform == 'web'
         uses: actions/deploy-pages@v1.2.3
         with:
           path: build/web
