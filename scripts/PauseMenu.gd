@@ -1,11 +1,9 @@
-extends Control
+extends Node2D
 
 func pause():
 	get_tree().paused = true
-	# show()
+	show()
 	print("--- OPENING PAUSE MENU ---")
-	$AnimationPlayer.play("open")
-	BlackFade._wait()
 
 var pauseLastFrame = false
 func _process(_delta):
@@ -18,12 +16,12 @@ func _process(_delta):
 				pause()
 	else:
 		pauseLastFrame = false
+func _ready():
+	resume()
 
 func resume():
 	print("--- CLOSING PAUSE MENU ---")
-	$AnimationPlayer.play_backwards("open")
-	BlackFade._wait()
-	# hide()
+	hide()
 	get_tree().paused = false
 
 func options(): pass
