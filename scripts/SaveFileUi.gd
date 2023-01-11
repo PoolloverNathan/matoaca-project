@@ -26,12 +26,15 @@ func _process(_delta):
 		setText("Resume", "", "Erase")
 	else:
 		contents.text = "Slot erased." if erased else "This slot is empty."
-		setText("Start V2", "", "", "Start V1")
+		if Input.is_key_pressed(KEY_CONTROL) and Input.is_key_pressed(KEY_2):
+			setText("Start V2", "", "", "Start V1")
+		else:
+			setText("Start")
 
 
 func _protected(_value):
 	assert(false, "Cannot set read-only property")
-func setText(_play, _copy, _delete, _play1 = ""):
+func setText(_play, _copy = "", _delete = "", _play1 = ""):
 	setTextFor(play, _play)
 	setTextFor(copy, _copy)
 	setTextFor(delete, _delete)
@@ -48,20 +51,22 @@ func _run():
 
 func _on_PlayButton_pressed():
 	print("loading file %d at %s" % [filenum, file])
-	var scene = load(PlayerService.getSave().level).instance()
 	PlayerService.saveFile = file
-	PlayerService.loadSave()
+	PlayerService.loadSave()	
+	var scene = load(PlayerService.getSave().level)
 	if PlayerService.wasNewLastLoaded:
-		PlayerService.getSave().spawn_at = scene.get_node("Player").global_position
+		PlayerService.getSave().spawn_at = scene.instance().get_node("Player").global_position
 	PlayerService.pushScene(scene, false)
 	PlayerService.save(true)
 	print("loaded scene %s" % PlayerService.getSave().level)
 func _on_PlayL1Button_pressed():
 	print("loading l1 file %d at %s" % [filenum, file])
-	var scene = load("res://levels/level1.tscn").instance()
 	PlayerService.saveFile = file
 	PlayerService.loadSave()
 	PlayerService.getSave().level = "res://levels/level1.tscn"
+	var scene = load("res://levels/level1.tscn")
+	if PlayerService.wasNewLastLoaded:
+		PlayerService.getSave().spawn_at = scene.instance().get_node("Player").global_position
 	PlayerService.pushScene(scene, false)
 	PlayerService.save(true)
 	print("loaded l1 scene %s" % PlayerService.getSave().level)

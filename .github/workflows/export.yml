@@ -4,7 +4,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
-env:
+`env:
   GODOT_VERSION: 3.5.1
 
 jobs:

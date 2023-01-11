@@ -51,6 +51,7 @@ boot_splash/bg_color=Color( 0.141176, 0.141176, 0.141176, 1 )
 BlackFade="*res://BlackFade.tscn"
 PlayerService="*res://scripts/PlayerService.gd"
 PauseMenu="*res://pause.tscn"
+ZZOverlay="res://childlist.tscn"
 
 [debug]
 
