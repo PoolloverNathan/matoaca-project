@@ -1,269 +1,113 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Summary.gd" type="Script" id=1]
 [ext_resource path="res://scripts/PauseMenu.gd" type="Script" id=2]
 [ext_resource path="res://player/QuitButton.gd" type="Script" id=3]
 [ext_resource path="res://player/ExitLevelButton.gd" type="Script" id=4]
 
-[sub_resource type="Animation" id=2]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("ColorRect:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Panel:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 405, 258 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Panel:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Summary:rect_position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 377, 467 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Summary:modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ) ]
-}
-
-[sub_resource type="Animation" id=3]
-resource_name = "open"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/path = NodePath("ColorRect:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.501961 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Panel:rect_position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 405, 258 ), Vector2( 405, 208 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Panel:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Summary:rect_position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 377, 467 ), Vector2( 377, 417 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Summary:modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-
-[sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0, 0, 0, 0.501961 )
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.254902, 0.254902, 0.290196, 1 )
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-
-[sub_resource type="DynamicFontData" id=1]
-font_path = "res://fonts/Roboto-Regular.ttf"
-
-[sub_resource type="DynamicFont" id=5]
-size = 24
-font_data = SubResource( 1 )
-
-[node name="PauseMenu" type="Control"]
+[node name="PauseMenu" type="Node2D"]
 pause_mode = 2
-anchor_right = 1.0
-anchor_bottom = 1.0
+visible = false
+z_index = 100
 script = ExtResource( 2 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/RESET = SubResource( 2 )
-anims/open = SubResource( 3 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0 )
+color = Color( 0, 0, 0, 0.501961 )
 
-[node name="Panel" type="PanelContainer" parent="."]
-modulate = Color( 1, 1, 1, 0 )
+[node name="PanelContainer" type="PanelContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 405.0
-margin_top = 258.0
-margin_right = 619.0
-margin_bottom = 460.0
-custom_styles/panel = SubResource( 6 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-margin_right = 214.0
-margin_bottom = 202.0
+margin_left = -117.0
+margin_top = -138.0
+margin_right = 117.0
+margin_bottom = 138.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 200, 0 )
-size_flags_vertical = 5
 
-[node name="Panel" type="Panel" parent="Panel/VBoxContainer"]
-margin_right = 214.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 0, 40 )
-size_flags_horizontal = 3
-custom_styles/panel = SubResource( 4 )
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 227.0
+margin_bottom = 269.0
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer/Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = SubResource( 5 )
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+margin_right = 220.0
+margin_bottom = 15.0
 text = "Paused"
-align = 1
-valign = 1
 
-[node name="ResumeButton" type="ToolButton" parent="Panel/VBoxContainer"]
-margin_top = 44.0
-margin_right = 214.0
-margin_bottom = 67.0
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+margin_top = 19.0
+margin_right = 220.0
+margin_bottom = 23.0
+
+[node name="ResumeButton" type="Button" parent="PanelContainer/VBoxContainer"]
+margin_top = 27.0
+margin_right = 220.0
+margin_bottom = 48.0
 text = "Resume"
 
-[node name="OptionsButton" type="ToolButton" parent="Panel/VBoxContainer"]
-margin_top = 71.0
-margin_right = 214.0
-margin_bottom = 94.0
+[node name="OptionsButton" type="Button" parent="PanelContainer/VBoxContainer"]
+margin_top = 52.0
+margin_right = 220.0
+margin_bottom = 73.0
 text = "Options"
 
-[node name="ProgressButton" type="ToolButton" parent="Panel/VBoxContainer"]
-margin_top = 98.0
-margin_right = 214.0
-margin_bottom = 121.0
+[node name="ProgressButton" type="Button" parent="PanelContainer/VBoxContainer"]
+margin_top = 77.0
+margin_right = 220.0
+margin_bottom = 98.0
 text = "Progress"
 
-[node name="SavesButton" type="ToolButton" parent="Panel/VBoxContainer"]
-margin_top = 125.0
-margin_right = 214.0
-margin_bottom = 148.0
+[node name="SavesButton" type="Button" parent="PanelContainer/VBoxContainer"]
+margin_top = 102.0
+margin_right = 220.0
+margin_bottom = 123.0
 text = "Saves"
 
-[node name="ExitLevelButton" type="ToolButton" parent="Panel/VBoxContainer"]
-modulate = Color( 1, 0, 0, 1 )
-margin_top = 152.0
-margin_right = 214.0
-margin_bottom = 175.0
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+margin_top = 127.0
+margin_right = 220.0
+margin_bottom = 131.0
+
+[node name="ExitLevelButton" type="Button" parent="PanelContainer/VBoxContainer"]
+margin_top = 135.0
+margin_right = 220.0
+margin_bottom = 156.0
 text = "Exit Level"
 script = ExtResource( 4 )
 
-[node name="QuitButton" type="ToolButton" parent="Panel/VBoxContainer"]
-modulate = Color( 1, 0, 0, 1 )
-margin_top = 179.0
-margin_right = 214.0
-margin_bottom = 202.0
+[node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer"]
+margin_top = 160.0
+margin_right = 220.0
+margin_bottom = 181.0
 text = "Quit"
 script = ExtResource( 3 )
 
-[node name="Control" type="Control" parent="Panel/VBoxContainer/QuitButton"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = -20.0
-margin_bottom = -20.0
+[node name="HSeparator3" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+margin_top = 185.0
+margin_right = 220.0
+margin_bottom = 189.0
 
-[node name="Summary" type="Label" parent="."]
-modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 377.0
-margin_top = 467.0
-margin_right = 647.0
-margin_bottom = 554.0
+[node name="Summary" type="Label" parent="PanelContainer/VBoxContainer"]
+margin_top = 193.0
+margin_right = 220.0
+margin_bottom = 262.0
 grow_vertical = 0
 text = "{{Difficulty}}, {{perc}}%. Last save {{time}}.
 {{G}}/{{GMAX}} green gems collected.
 {{O}}/{{OMAX}} orange gems collected.
-Stage {{S}}/{{SMAX}}.
-{{LORE}}"
+Stage {{S}}/{{SMAX}}."
 align = 1
 script = ExtResource( 1 )
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ResumeButton" to="." method="resume"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/OptionsButton" to="." method="options"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ProgressButton" to="." method="progress"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/SavesButton" to="." method="saves"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ExitLevelButton" to="." method="exit_level"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/QuitButton" to="." method="quit"]

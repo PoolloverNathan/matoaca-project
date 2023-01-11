@@ -12,6 +12,7 @@ enum TYPE {
 	## A green gem that will be saved in the save file.
 	COLLECTIBLE,
 	BROWN,
+	## A black gem that teleports the player.
 	BLACK,
 	TAN,
 	## An orange gem whose collection ends the current secret level. Its collection will also be saved in the save file. 
@@ -45,9 +46,13 @@ export(NodePath) var enable_layer = null
 export var stageNumber = 0
 onready var disable_node: Node2D = get_node(disable_layer) if disable_layer else null
 onready var enable_node: Node2D = get_node(enable_layer) if enable_layer else null
-onready var enable_node_parent = enable_node.get_parent() if enable_node else null
+onready var enable_parent: Node2D = enable_node.get_parent() if enable_node else null
+## Whether or not the gem respawns, if it is a black gem.
+export var respawn = false
 export(NodePath) var spawn_at = null
+export(NodePath) var teleport_to = null
 onready var spawn_at_pos: Vector2 = get_node(spawn_at).global_position if spawn_at else Vector2(0, 0)
+onready var teleport_to_pos: Vector2 = get_node(teleport_to).global_position if teleport_to else global_position
 export(PackedScene) var level
 export(float) var launch_force = 30.0
 
@@ -59,8 +64,9 @@ func _ready():
 	if Engine.editor_hint:
 		return
 	PlayerService.connect("save_loaded", self, "_save_loaded")
-	if enable_node_parent:
-		enable_node_parent.remove_child(enable_node)
+	if enable_parent:
+		enable_parent.remove_child(enable_node)
+		
 func _save_loaded(save, new):
 	if not new and save.get(name):
 		sideEffect(true)
@@ -82,14 +88,11 @@ func sideEffect(fromSave):
 	# if Engine.editor_hint:
 	# 	return
 	match type:
-		TYPE.DECORATIVE, TYPE.PURPLE:
+		_:
 			if disable_node:
-				disable_node.queue_free()
-				disable_node = null
-			if enable_node:
-				enable_node_parent.add_child(enable_node)
-				enable_node_parent = null
-				enable_node = null
+				disable_node.get_parent().remove_child(disable_node)
+			if enable_parent:
+				enable_parent.add_child(enable_node)
 			continue
 		TYPE.SUBLEVEL:
 			if not fromSave:
@@ -99,6 +102,16 @@ func sideEffect(fromSave):
 			if not fromSave:
 				PlayerService.pushScene(level, false)
 			continue
+		TYPE.BLACK:
+			if not fromSave:
+				var player = get_tree().get_nodes_in_group("player_unique").back() as Node2D
+				BlackFade.fadeout()
+				player.global_position = teleport_to_pos
+				if respawn:
+					var inst = load(filename).instance()
+					get_parent().add_child_below_node(self, inst)
+					call_deferred("queue_free")
+				BlackFade.fadein()
 		TYPE.COLLECTIBLE, TYPE.ORANGE, TYPE.DECORATIVE, TYPE.PURPLE:
 			if not fromSave: # don't waste time setting it
 				save[name] = true
