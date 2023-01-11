@@ -6,6 +6,9 @@ permissions:
   id-token: write
 env:
   GODOT_VERSION: 3.5.1
+concurrency:
+  group: export
+  cancel-in-progress: true
 
 jobs:
   source:
