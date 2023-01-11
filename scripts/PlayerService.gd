@@ -9,6 +9,7 @@ var orange = []
 var inputNames = ["move_up", "move_left", "move_down", "move_right", "jump"]
 export var worthSaving = false
 export var active = false
+export var wasNewLastLoaded = false
 
 func getOrangeGemCount(save = _savegame):
 	var total = 0
@@ -51,9 +52,11 @@ func save(force = false):
 func loadSave():
 	if ResourceLoader.exists(saveFile):
 		_savegame = load(saveFile).instance()
+		wasNewLastLoaded = false
 		emit_signal("save_loaded", _savegame, false)
 	else:
 		_savegame = Savegame.new()
+		wasNewLastLoaded = true
 		emit_signal("save_loaded", _savegame, true)
 func bind_key(name: String, event: InputEventKey):
 	var mkey = name + "_event"
