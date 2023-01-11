@@ -12,6 +12,11 @@ isRootLevel = true
 
 [node name="OutOfBounds" parent="." instance=ExtResource( 3 )]
 
+[node name="OutOfBounds" parent="OutOfBounds" instance=ExtResource( 3 )]
+position = Vector2( 0, -2048 )
+rotation = 1.57079
+scale = Vector2( 1, 0.25 )
+
 [node name="TrainingPart" parent="." instance=ExtResource( 2 )]
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
