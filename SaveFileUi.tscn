@@ -34,19 +34,19 @@ mouse_filter = 1
 [node name="Contents" type="Label" parent="Box"]
 margin_top = 27.0
 margin_right = 200.0
-margin_bottom = 188.0
+margin_bottom = 167.0
 mouse_filter = 1
 size_flags_vertical = 3
 text = "This slot is empty."
 
 [node name="HSeparator2" type="HSeparator" parent="Box"]
-margin_top = 192.0
+margin_top = 171.0
 margin_right = 200.0
-margin_bottom = 196.0
+margin_bottom = 175.0
 mouse_filter = 1
 
 [node name="Buttons" type="HBoxContainer" parent="Box"]
-margin_top = 200.0
+margin_top = 179.0
 margin_right = 200.0
 margin_bottom = 200.0
 alignment = 2
@@ -65,12 +65,18 @@ margin_right = 160.0
 margin_bottom = 21.0
 text = "Delete"
 
+[node name="PlayL1Button" type="Button" parent="Box/Buttons"]
+margin_left = 120.0
+margin_right = 158.0
+margin_bottom = 21.0
+text = "Start"
+
 [node name="PlayButton" type="Button" parent="Box/Buttons"]
-visible = false
 margin_left = 162.0
 margin_right = 200.0
 margin_bottom = 21.0
 text = "Start"
 
 [connection signal="pressed" from="Box/Buttons/DeleteButton" to="." method="_on_DeleteButton_pressed"]
+[connection signal="pressed" from="Box/Buttons/PlayL1Button" to="." method="_on_PlayL1Button_pressed"]
 [connection signal="button_down" from="Box/Buttons/PlayButton" to="." method="_on_PlayButton_pressed"]

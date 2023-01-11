@@ -52,6 +52,10 @@ BlackFade="*res://BlackFade.tscn"
 PlayerService="*res://scripts/PlayerService.gd"
 PauseMenu="*res://pause.tscn"
 
+[debug]
+
+settings/stdout/verbose_stdout.editor=true
+
 [display]
 
 window/energy_saving/keep_screen_on=false
