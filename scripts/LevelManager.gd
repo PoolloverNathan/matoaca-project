@@ -6,7 +6,7 @@ func reload():
 	finish_reload()
 func finish_reload():
 	get_tree().reload_current_scene()
-	BlackFade.fadein()
+	BlackFade.fadein(true)
 func _ready():
 	PlayerService.active = true
 	PlayerService.loadSave()
