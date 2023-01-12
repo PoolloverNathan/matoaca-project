@@ -219,5 +219,19 @@ position = Vector2( 0, 7 )
 enabled = true
 cast_to = Vector2( 0, 16 )
 
+[node name="InteractionParticles" type="CPUParticles2D" parent="."]
+show_behind_parent = true
+gravity = Vector2( 0, 0 )
+
+[node name="ClingToWall" type="RayCast2D" parent="."]
+position = Vector2( 0, 8 )
+enabled = true
+cast_to = Vector2( -8, 0 )
+
+[node name="WallJump" type="RayCast2D" parent="."]
+position = Vector2( 0, 8 )
+enabled = true
+cast_to = Vector2( 8, 0 )
+
 [connection signal="viewport_exited" from="visibility" to="." method="_on_exit_screen"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

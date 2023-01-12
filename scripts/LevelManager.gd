@@ -2,10 +2,11 @@ extends Node2D
 export var isRootLevel = false
 
 func reload():
-	BlackFade.fadeout(true)
-	# warning-ignore:return_value_discarded
+	# BlackFade.fadeout(self, "finish_reload")
+	finish_reload()
+func finish_reload():
 	get_tree().reload_current_scene()
-	BlackFade.fadein(true)
+	BlackFade.fadein()
 func _ready():
 	PlayerService.active = true
 	PlayerService.loadSave()

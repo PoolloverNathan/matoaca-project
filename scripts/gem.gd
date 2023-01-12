@@ -93,6 +93,7 @@ func sideEffect(fromSave):
 				disable_node.get_parent().remove_child(disable_node)
 			if enable_parent:
 				enable_parent.add_child(enable_node)
+				enable_node.show()
 			continue
 		TYPE.SUBLEVEL:
 			if not fromSave:

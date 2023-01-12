@@ -5,3 +5,4 @@ export var move_right := KEY_1
 export var move_up := KEY_3
 export var move_down := KEY_7
 export var jump := KEY_5
+export var cling_wall = KEY_MINUS

@@ -15,7 +15,9 @@ export var FALL_SPLAT_TIME = 1
 export var DOUBLE_JUMP_THRESHOLD = 0.5
 export var COYOTE_THRESHOLD = 0.25
 onready var TREE: AnimationTree = $AnimationPlayer/AnimationTree
+onready var INTP := $InteractionParticles
 
+var interact_with: Node2D = null
 var linear_vel = Vector2()
 var fall_time = 0
 var fall_splat_time = 0
@@ -29,6 +31,13 @@ onready var sprite = $Body
 
 func _ready():
 	pass
+
+func _process(delta):
+	if interact_with:
+		INTP.emitting = true
+		INTP.initial_velocity = interact_with.global_position - global_position
+	else:
+		INTP.emitting = false
 
 func _physics_process(delta):
 	if transform.origin.y > 480:
