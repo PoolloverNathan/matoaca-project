@@ -3,7 +3,8 @@ class_name Player extends KinematicBody2D
 # signal get_collectable(color)
 signal reload()
 
-export var GRAVITY_VEC = Vector2(0, 900)
+export var GRAVITY_VEC = Vector2(0, 0)
+export var RAW_GRAVITY_VEC = Vector2(0, 0)
 export var FLOOR_NORMAL = Vector2(0, -1)
 export var SLOPE_SLIDE_STOP = 25.0
 export var WALK_SPEED = 250 # pixels/sec
@@ -16,12 +17,14 @@ export var DOUBLE_JUMP_THRESHOLD = 0.5
 export var COYOTE_THRESHOLD = 0.25
 onready var TREE: AnimationTree = $AnimationPlayer/AnimationTree
 onready var INTP := $InteractionParticles
+var GRAV_FAC = 9.193674 # from experiments
 
 var interact_with: Node2D = null
 var linear_vel = Vector2()
 var fall_time = 0
 var fall_splat_time = 0
 var can_double_jump = true
+var is_clinging_to_wall = false
 var coyote = 0
 
 var anim = ""
@@ -40,6 +43,13 @@ func _process(delta):
 		INTP.emitting = false
 
 func _physics_process(delta):
+	RAW_GRAVITY_VEC = $GravityGetter.gravity
+	#if GRAV_FAC == 1 and RAW_GRAVITY_VEC != Vector2(0, 0):
+	#	# default gravity * GRAV_FAC = Vector2(0, 900)
+	#	# GRAV_FAC = Vector2(0, 900) / default gravity
+	#	GRAV_FAC = (Vector2(1, 900) / RAW_GRAVITY_VEC).y
+	#$Label.text = str(GRAV_FAC)
+	GRAVITY_VEC = RAW_GRAVITY_VEC * GRAV_FAC
 	if transform.origin.y > 480:
 		emit_signal("reload")
 		return
@@ -75,13 +85,23 @@ func _physics_process(delta):
 	linear_vel.x = lerp(linear_vel.x, target_speed, 0.1)
 
 	# Jumping
-	if (on_floor or (can_double_jump and not $FloorCast.is_colliding())) and Input.is_action_just_pressed("jump"):
+	if (on_floor or (can_double_jump and not $FloorCast.is_colliding() and not is_clinging_to_wall)) and Input.is_action_just_pressed("jump"):
 		linear_vel.y = -JUMP_SPEED
 		if not on_floor:
 			can_double_jump = false
 		# ($SoundJump as AudioStreamPlayer2D).play()
 	if on_floor:
 		can_double_jump = true
+		is_clinging_to_wall = false
+	else:
+		if $ClingToWall.is_colliding() and not is_clinging_to_wall and Input.is_action_just_pressed("cling_wall"):
+				is_clinging_to_wall = true
+				sprite.scale.x *= -1
+		if $WallJump.is_colliding() and is_clinging_to_wall:
+			if Input.is_action_just_pressed("jump"):
+				linear_vel = sprite.scale * Vector2(JUMP_SPEED, -JUMP_SPEED)
+			else:
+				linear_vel -= delta * GRAVITY_VEC
 
 	### ANIMATION ###
 
@@ -108,12 +128,13 @@ func _physics_process(delta):
 		# We want the character to immediately change facing side when the player
 		# tries to change direction, during air control.
 		# This allows for example the player to shoot quickly left then right.
-		if Input.is_action_pressed("move_left") and not Input.is_action_pressed("move_right"):
-			sprite.scale.x = -1
-			left = true
-		if Input.is_action_pressed("move_right") and not Input.is_action_pressed("move_left"):
-			sprite.scale.x = 1
-			right = true
+		if not is_clinging_to_wall:
+			if Input.is_action_pressed("move_left") and not Input.is_action_pressed("move_right"):
+				sprite.scale.x = -1
+				left = true
+			if Input.is_action_pressed("move_right") and not Input.is_action_pressed("move_left"):
+				sprite.scale.x = 1
+				right = true
 
 		if linear_vel.y < 0:
 			jumping = true

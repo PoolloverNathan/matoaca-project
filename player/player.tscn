@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://player/player_movement.gd" type="Script" id=1]
 [ext_resource path="res://player/anims/walk.anim" type="Animation" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://player/sprites/body.png" type="Texture" id=7]
 [ext_resource path="res://player/anims/leap.tres" type="Animation" id=8]
 [ext_resource path="res://player/anims/still.tres" type="Animation" id=9]
+[ext_resource path="res://scripts/StateGetter.gd" type="Script" id=10]
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 3, 7.5 )
@@ -43,8 +44,21 @@ graph_offset = Vector2( 0, 8.16156 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
+[sub_resource type="Gradient" id=22]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 1.25, 1.25, 1.25, 1 )
+
+[sub_resource type="GradientTexture2D" id=21]
+gradient = SubResource( 22 )
+width = 1024
+height = 512
+use_hdr = true
+
 [sub_resource type="RectangleShape2D" id=19]
 extents = Vector2( 6, 10 )
+
+[sub_resource type="RectangleShape2D" id=23]
+extents = Vector2( 0, 0 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -61,6 +75,7 @@ shape = SubResource( 4 )
 [node name="Body" type="Node2D" parent="."]
 
 [node name="BodySprite" type="Sprite" parent="Body"]
+light_mask = 2
 texture = ExtResource( 7 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite"]
@@ -72,6 +87,7 @@ update_scale = false
 position = Vector2( 0, -4 )
 
 [node name="HeadSprite" type="Sprite" parent="Body/BodySprite/Head"]
+light_mask = 2
 texture = ExtResource( 5 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite/Head/HeadSprite"]
@@ -82,6 +98,7 @@ update_scale = false
 [node name="Shadow" type="Sprite" parent="Body/BodySprite/Head"]
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
+light_mask = 2
 position = Vector2( -9.53674e-07, 1 )
 texture = ExtResource( 5 )
 
@@ -90,6 +107,7 @@ show_behind_parent = true
 position = Vector2( 0, -2 )
 
 [node name="LowerArmSprite" type="Sprite" parent="Body/BodySprite/LowerArm"]
+light_mask = 2
 rotation = 0.785396
 texture = ExtResource( 6 )
 
@@ -101,6 +119,7 @@ update_scale = false
 [node name="Shadow" type="Sprite" parent="Body/BodySprite/LowerArm"]
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
+light_mask = 2
 position = Vector2( -6.55651e-07, 1 )
 rotation = 0.785396
 texture = ExtResource( 6 )
@@ -109,6 +128,7 @@ texture = ExtResource( 6 )
 position = Vector2( 0, -2 )
 
 [node name="UpperArmSprite" type="Sprite" parent="Body/BodySprite/UpperArm"]
+light_mask = 2
 rotation = -0.785396
 texture = ExtResource( 6 )
 
@@ -120,6 +140,7 @@ update_scale = false
 [node name="Shadow" type="Sprite" parent="Body/BodySprite/UpperArm"]
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
+light_mask = 2
 position = Vector2( -3.78117e-07, 1 )
 rotation = -0.785396
 texture = ExtResource( 6 )
@@ -129,6 +150,7 @@ show_behind_parent = true
 position = Vector2( 0, 4 )
 
 [node name="LowerLegSprite" type="Sprite" parent="Body/BodySprite/LowerLeg"]
+light_mask = 2
 texture = ExtResource( 3 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Body/BodySprite/LowerLeg/LowerLegSprite"]
@@ -139,6 +161,7 @@ update_scale = false
 [node name="Shadow" type="Sprite" parent="Body/BodySprite/LowerLeg"]
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
+light_mask = 2
 position = Vector2( 0, 1 )
 texture = ExtResource( 3 )
 
@@ -147,6 +170,7 @@ show_behind_parent = true
 position = Vector2( 0, 4 )
 
 [node name="UpperLegSprite" type="Sprite" parent="Body/BodySprite/UpperLeg"]
+light_mask = 2
 rotation = 1.0472
 texture = ExtResource( 3 )
 
@@ -158,6 +182,7 @@ update_scale = false
 [node name="Shadow" type="Sprite" parent="Body/BodySprite/UpperLeg"]
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
+light_mask = 2
 position = Vector2( 7.15256e-07, 1 )
 rotation = 1.0472
 texture = ExtResource( 3 )
@@ -165,6 +190,7 @@ texture = ExtResource( 3 )
 [node name="Shadow" type="Sprite" parent="Body"]
 modulate = Color( 0, 0, 0, 0.25098 )
 show_behind_parent = true
+light_mask = 2
 position = Vector2( -7.15256e-07, 1 )
 texture = ExtResource( 7 )
 
@@ -192,7 +218,6 @@ position = Vector2( 2.38419e-07, -1 )
 scale = Vector2( 0.4, 0.8 )
 
 [node name="camera" type="Camera2D" parent="."]
-visible = false
 rotating = true
 current = true
 zoom = Vector2( 0.33, 0.33 )
@@ -204,6 +229,31 @@ drag_margin_v_enabled = true
 smoothing_enabled = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
+
+[node name="Node2D" type="Node2D" parent="camera"]
+z_index = -100
+
+[node name="CanvasLayer" type="CanvasLayer" parent="camera/Node2D"]
+layer = -5
+follow_viewport_enable = true
+
+[node name="Panel" type="Panel" parent="camera/Node2D/CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -1024.0
+margin_top = -812.0
+margin_bottom = 212.0
+rect_min_size = Vector2( 1024, 1024 )
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = SubResource( 21 )
+mode = 2
+shadow_enabled = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0.75, 0.75, 0.75, 1 )
 
 [node name="Area2D" type="Area2D" parent="."]
 monitorable = false
@@ -217,7 +267,7 @@ shape = SubResource( 19 )
 [node name="FloorCast" type="RayCast2D" parent="."]
 position = Vector2( 0, 7 )
 enabled = true
-cast_to = Vector2( 0, 16 )
+cast_to = Vector2( 0, 17 )
 
 [node name="InteractionParticles" type="CPUParticles2D" parent="."]
 show_behind_parent = true
@@ -226,12 +276,34 @@ gravity = Vector2( 0, 0 )
 [node name="ClingToWall" type="RayCast2D" parent="."]
 position = Vector2( 0, 8 )
 enabled = true
-cast_to = Vector2( -8, 0 )
+cast_to = Vector2( -16, 0 )
 
 [node name="WallJump" type="RayCast2D" parent="."]
 position = Vector2( 0, 8 )
 enabled = true
-cast_to = Vector2( 8, 0 )
+cast_to = Vector2( 16, 0 )
 
-[connection signal="viewport_exited" from="visibility" to="." method="_on_exit_screen"]
+[node name="GravityGetter" type="RigidBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+custom_integrator = true
+can_sleep = false
+script = ExtResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityGetter"]
+shape = SubResource( 23 )
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -20.0
+margin_top = -35.0
+margin_right = 20.0
+margin_bottom = -20.0
+grow_horizontal = 2
+align = 1
+valign = 1
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
