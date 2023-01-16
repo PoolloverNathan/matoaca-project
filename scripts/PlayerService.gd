@@ -104,5 +104,6 @@ func loadPrefs():
 		savePrefs()
 	for key in inputNames:
 		load_bound_key(key, _prefs.get(key))
-func _init():
-	loadPrefs()
+tool func _init():
+	if not Engine.editor_hint:
+		loadPrefs()

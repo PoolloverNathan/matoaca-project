@@ -87,12 +87,17 @@ func sideEffect(fromSave):
 	var save = PlayerService.getSave()
 	# if Engine.editor_hint:
 	# 	return
+	var wantToSave = false
 	match type:
 		_:
-			if disable_node:
+			if disable_node and disable_node.get_parent():
+				save[name] = true
 				disable_node.get_parent().remove_child(disable_node)
+				PlayerService.worthSaving = true
 			if enable_parent:
+				save[name] = true
 				enable_parent.add_child(enable_node)
+				PlayerService.worthSaving = true
 			continue
 		TYPE.SUBLEVEL:
 			if not fromSave:
@@ -121,16 +126,11 @@ func sideEffect(fromSave):
 			PlayerService.popScene()
 			continue
 		_:
-			if not fromSave and spawn_at_pos.length_squared() != 0:
-				save.spawn_at = spawn_at_pos
-				PlayerService.worthSaving = true
-			if save.current_stage < stageNumber:
-				save.current_stage = stageNumber
-				PlayerService.worthSaving = true
-			PlayerService.save()
+			if wantToSave:
+				PlayerService.save()
 
 
 func _on_Dislodge_body_entered(body):
 	if body is Player:
 		call_deferred("hit", int(body.global_position.x > global_position.x) *2-1)
-		$Dislodge.monitoring = false
+		$Dislodge.set_deferred("monitoring", false)
