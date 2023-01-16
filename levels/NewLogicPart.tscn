@@ -1,6 +1,16 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://gem.tscn" type="PackedScene" id=2]
+[ext_resource path="res://FallingFire.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 12 )
+
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 1064, -576, -7.72985, 0.297302, 7.72985, -0.297302, 1072, -568, -8.02715, 0, 8.02715, 0, 1136, -568, 0, 2.5332e-07, 0, -2.5332e-07, 1144, -576, 0, 0, 0, 0, 1144, -616 )
+}
 
 [node name="NewLogicPart" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -8,8 +18,56 @@ cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 show_collision = true
 format = 1
-tile_data = PoolIntArray( -3080132, 0, 65538, -3080131, 0, 65538, -3080130, 0, 65538, -3080129, 0, 65538, -3080128, 0, 65539, -3080127, 0, 65538, -3080126, 0, 65538, -3080125, 0, 65538, -3080124, 0, 65539, -3014592, 0, 2, -3014588, 0, 2, -2949056, 0, 2, -2949052, 0, 2, -2883520, 0, 2, -2883516, 0, 2, -2817984, 0, 2, -2817980, 0, 2, -2752452, 0, 65538, -2752451, 0, 65538, -2752450, 0, 65537, -2752448, 0, 2, -2752444, 0, 2, -2686914, 0, 4, -2686912, 0, 2, -2686908, 0, 2, -2621378, 0, 4, -2555842, 0, 4, -2490308, 0, 65538, -2490307, 0, 65538, -2490306, 0, 65539, -2490305, 0, 65538, -2490304, 0, 65538, -2490303, 0, 65536, -2490302, 0, 720896, -2424770, 0, 2, -2424767, 0, 1, -2359234, 0, 2, -2359231, 0, 1, -2293698, 0, 2, -2293695, 0, 1 )
+tile_data = PoolIntArray( -3276740, 1, 65536, -3276737, 1, 65536, -3211204, 1, 4, -3211201, 1, 2, -3080132, 1, 0, -3080131, 0, 65538, -3080130, 0, 65538, -3080129, 1, 0, -3080128, 0, 65539, -3080127, 0, 65538, -3080126, 0, 65538, -3080125, 0, 65538, -3080124, 0, 65539, -3014592, 0, 2, -3014588, 0, 2, -2949056, 0, 2, -2949052, 0, 2, -2883520, 0, 2, -2883516, 0, 2, -2817988, 0, 131076, -2817984, 0, 2, -2817980, 0, 2, -2752452, 0, 65538, -2752451, 0, 65538, -2752450, 0, 65537, -2752448, 0, 2, -2752444, 0, 2, -2686914, 0, 4, -2686908, 0, 2, -2621378, 0, 4, -2621372, 0, 2, -2555842, 0, 4, -2555836, 0, 2, -2490308, 0, 65538, -2490307, 0, 65538, -2490306, 0, 65539, -2490305, 1, 0, -2490304, 0, 65538, -2490303, 0, 65536, -2490300, 0, 6, -2490299, 0, 65538, -2490298, 0, 65538, -2490297, 0, 1179655, -2490296, 1, 0, -2490295, 0, 65536, -2424770, 0, 2, -2424769, 1, 3, -2424764, 0, 0, -2424761, 0, 1179653, -2424759, 0, 1, -2359234, 0, 6, -2359233, 0, 65538, -2359232, 0, 65538, -2359231, 0, 65536, -2359230, 0, 1179650, -2359229, 0, 1179654, -2359228, 0, 1245184, -2359227, 0, 1179654, -2359226, 0, 1179654, -2359225, 0, 1179652, -2359223, 0, 1, -2293698, 0, 0, -2293695, 0, 1, -2293692, 0, 0, -2293687, 0, 1 )
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+position = Vector2( 1072, -672 )
+scale = Vector2( 11.2, 12.8 )
+
+[node name="gem" parent="." instance=ExtResource( 2 )]
+position = Vector2( 984, -680 )
+
+[node name="OffWires" type="TileMap" parent="."]
+visible = false
+show_behind_parent = true
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( -2490302, 1, 131079, -2424767, 1, 262147, -2424766, 1, 65540 )
+
+[node name="OnWires" type="TileMap" parent="."]
+show_behind_parent = true
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( -3211204, 536870913, 6, -3211203, 0, 983047, -3211202, 0, 983047, -3211201, 1, 6, -3145668, 0, 1114115, -3145665, 0, 1114115, -3080132, 0, 1114115, -3080129, 0, 1114115, -3014596, 0, 1114115, -3014593, 0, 1114115, -2949060, 0, 1114115, -2949057, 0, 1114115, -2883524, 0, 1114115, -2883521, 0, 1114115, -2817988, 0, 1048583, -2817985, 0, 1114115, -2752449, 0, 1114115, -2686913, 0, 1114115, -2621377, 0, 1114115, -2555841, 0, 1114115, -2490305, 0, 1114115, -2490302, 0, 720896, -2424769, 1610612737, 6, -2424768, 0, 983047, -2424767, 1, 262144, -2424766, 0, 458755 )
+
+[node name="OffLasers" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+
+[node name="OnLasers" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 1064, -588 )
+shape = SubResource( 1 )
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource( 2 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2( 1064, -576 )
+rotation = 1.31841
+
+[node name="FallingFire" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1032, -648 )
-scale = Vector2( 7.2, 10.4 )
